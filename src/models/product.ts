@@ -1,14 +1,14 @@
 import { Document, Schema, Model, model } from 'mongoose';
 
 interface IProduct extends Document {
-    name: string;
+    productName: string;
     color: string[];
     description: string;
     price: number;
 }
 
 const productSchema: Schema = new Schema({
-    name: {
+    productName: {
         type: String,
         required: true,
         unique: true
