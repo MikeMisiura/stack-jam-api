@@ -51,15 +51,15 @@ export const editOrder: RequestHandler = async (req, res, next) => {
     let admin: IUser | null = await verifyAdmin(req);
     if (!admin) { return res.status(403).send() }
 
-    let itemId = req.params.id;
+    let orderId = req.params.id;
     const updatedOrder: IOrder = new Order({
-        _id: itemId,
+        _id: orderId,
         name: req.body.name,
         description: req.body.description,
         price: req.body.price
     });
 
-    await Order.findByIdAndUpdate(itemId, { $set: updatedOrder })
+    await Order.findByIdAndUpdate(orderId, { $set: updatedOrder })
 
     res.status(200).json(updatedOrder);
 }
