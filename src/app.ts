@@ -11,12 +11,19 @@ mongoose.connect(connectionString).then(
     () => console.log('database connection successful!'), 
     err => console.log('Error connecting to the database', err));
 
+// middleware
+// express
 const app = express();
-
 app.use(morgan('dev'));
-
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+// CORS
+// TODO: utilize CORS: at the moment, all requests are allowed
+// https://github.com/expressjs/cors#configuration-options
+
+const cors = require('cors');
+app.use(cors());
 
 // routes
 app.use('/api/products', productRoutes);
