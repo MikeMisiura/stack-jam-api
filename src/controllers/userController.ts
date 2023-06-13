@@ -2,6 +2,13 @@ import { RequestHandler } from "express";
 import { User, IUser } from "../models/user";
 import { comparePasswords, hashPassword, signUserToken, verifyAdmin, verifyUser } from "../services/auth";
 
+export const getUserInfo: RequestHandler = async (req, res, next) => {
+    let user: IUser | null = await verifyUser(req);
+    if (!user) { return res.status(403).send() }
+
+    res.status(200).json(user);
+}
+
 export const getAllUsers: RequestHandler = async (req, res, next) => {
     let admin: IUser | null = await verifyAdmin(req);
     if (!admin) { return res.status(403).send() }
@@ -44,14 +51,15 @@ export const loginUser: RequestHandler = async (req, res, next) => {
         { email: req.body.email }
     );
 
-    if (!existingUser) { return res.status(401).json('Invalid email') }
+    if (!existingUser) { return res.status(402).json('Invalid email') }
 
     let passwordsMatch = await comparePasswords(req.body.password, existingUser.password);
 
     if (!passwordsMatch) { return res.status(401).json('Invalid password') }
 
     let token = await signUserToken(existingUser);
-    res.status(200).json({ token });
+    let admin: boolean = existingUser.admin
+    res.status(200).json({ token, admin });
 }
 
 export const setAdmin: RequestHandler = async (req, res, next) => {

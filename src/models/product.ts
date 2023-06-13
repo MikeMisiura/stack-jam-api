@@ -1,20 +1,21 @@
 import { Document, Schema, Model, model } from 'mongoose';
 
 interface IProduct extends Document {
+    id?: string;
     productName: string;
-    color: string[];
+    color: string;
     description: string;
     price: number;
+    groupCode: string;
 }
 
 const productSchema: Schema = new Schema({
     productName: {
         type: String,
         required: true,
-        unique: true
     },
     color: {
-        type: Array,
+        type: String,
         required: true
     },
     description: {
@@ -23,6 +24,10 @@ const productSchema: Schema = new Schema({
     },
     price: {
         type: Number,
+        required: true
+    },
+    groupCode: {
+        type: String,
         required: true
     }
 }, {

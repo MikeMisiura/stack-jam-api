@@ -22,14 +22,21 @@ export const addProduct: RequestHandler = async (req, res, next) => {
         productName: req.body.productName,
         description: req.body.description,
         color: req.body.color,
-        price: req.body.price
+        price: req.body.price,
+        groupCode: req.body.groupCode
     });
 
     try {
+        if (!newProduct.productName && !newProduct.description && !newProduct.color &&
+            !newProduct.price && !newProduct.groupCode
+        ) { res.status(400).send('Missing Information') }
+
+
         await newProduct.save();
         res.status(201).json(newProduct);
     }
     catch (err) {
+        console.log(err)
         res.status(500).send(err);
     }
 }
