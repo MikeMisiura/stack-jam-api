@@ -6,7 +6,8 @@ export const getUserInfo: RequestHandler = async (req, res, next) => {
     let user: IUser | null = await verifyUser(req);
     if (!user) { return res.status(403).send() }
 
-    res.status(200).json(user);
+    let userInfo = await User.findOne(user._id);
+    res.status(200).json(userInfo);
 }
 
 export const getAllUsers: RequestHandler = async (req, res, next) => {
@@ -24,6 +25,7 @@ export const createUser: RequestHandler = async (req, res, next) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         address: req.body.address,
+        cart: [],
         admin: false
     });
 
@@ -56,6 +58,12 @@ export const loginUser: RequestHandler = async (req, res, next) => {
     let passwordsMatch = await comparePasswords(req.body.password, existingUser.password);
 
     if (!passwordsMatch) { return res.status(401).json('Invalid password') }
+
+    // TODO: remove this line of code before production. 
+    // It adds a cart to existing users who do not have one. 
+    // This is only possible for test users set up before carts.
+    if (!existingUser.cart) { existingUser.cart = [] }
+    // 
 
     let token = await signUserToken(existingUser);
     let admin: boolean = existingUser.admin

@@ -1,12 +1,16 @@
 import { Document, Schema, Model, model } from 'mongoose';
+import { ICartProduct } from './cartProduct';
+
+// TODO: add city, state, zip to user data
 
 interface IUser extends Document {
     email: string;
     password: string;
     firstName: string;
     lastName: string;
-    address: String;
-    phone: String;
+    address: string;
+    cart: ICartProduct[]
+    phone: string;
     admin: boolean;
 }
 
@@ -31,6 +35,10 @@ const userSchema: Schema = new Schema({
     address: {
         type: String,
         required: true,
+    },
+    cart: {
+        type: Array,
+        required: false,
     },
     phone: {
         type: String,

@@ -30,7 +30,7 @@ export const createMessage: RequestHandler = async (req, res, next) => {
 
     if (req.body.phoneNumber) {
         newMessage.phoneNumber = req.body.phoneNumber
-    } 
+    }
 
 
     try {
@@ -38,6 +38,7 @@ export const createMessage: RequestHandler = async (req, res, next) => {
             !newMessage.message && !newMessage.read
         ) { res.status(400).send('more info required') }
 
+        // TODO: set up nodemailer to send emails
         let created = await newMessage.save();
         res.status(201).json(created);
     }

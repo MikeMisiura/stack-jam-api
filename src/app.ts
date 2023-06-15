@@ -5,6 +5,7 @@ import orderRoutes from './routes/orderRoutes';
 import userRoutes from './routes/userRoutes';
 import messageRoutes from './routes/messageRoutes';
 import mongoose from 'mongoose';
+import cartRoutes from './routes/cartRoutes';
 
 const connectionString: string = 'mongodb://localhost:27017/stack-jam';
 
@@ -29,6 +30,7 @@ app.use(cors());
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/cart', cartRoutes);
 app.use('/api/message', messageRoutes);
 
 app.use((req: Request, res: Response, next: NextFunction) => {

@@ -2,12 +2,12 @@ import { RequestHandler } from "express";
 import { Order, IOrder } from "../models/order";
 import { IUser, User } from "../models/user";
 import { verifyAdmin, verifyUser } from "../services/auth";
-import { IOrderProduct } from "../models/orderProduct";
+import { ICartProduct } from "../models/cartProduct";
 
 // TODO: set up tax rate
 const taxRate = 0
 
-function calculateSubtotalTaxTotal(products: IOrderProduct[]) {
+function calculateSubtotalTaxTotal(products: ICartProduct[]) {
 
     let subtotal: number = 0
 
@@ -64,7 +64,7 @@ export const addOrder: RequestHandler = async (req, res, next) => {
     let user: IUser | null = await verifyUser(req);
     if (!user) { return res.status(403).send() }
 
-    const products: IOrderProduct[] = req.body.products
+    const products: ICartProduct[] = req.body.products
 
     const { subtotal, tax, totalPrice } = calculateSubtotalTaxTotal(products)
 
@@ -92,7 +92,7 @@ export const addOrderForUser: RequestHandler = async (req, res, next) => {
     let user = await User.findById(req.params.id);
     if (!user) { return res.status(404).send() }
 
-    const products: IOrderProduct[] = req.body.products
+    const products: ICartProduct[] = req.body.products
 
     const { subtotal, tax, totalPrice } = calculateSubtotalTaxTotal(products)
 
