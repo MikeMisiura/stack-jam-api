@@ -51,7 +51,8 @@ export const editProduct: RequestHandler = async (req, res, next) => {
         productName: req.body.productName,
         description: req.body.description,
         color: req.body.color,
-        price: req.body.price
+        price: req.body.price,
+        groupCode: req.body.groupCode
     });
 
     await Product.findByIdAndUpdate(productId, { $set: updatedProduct })
