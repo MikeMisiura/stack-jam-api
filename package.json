@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "build": "concurrently \"install\" \"tsc -w\"",
-    "start": "node build/app.js",
+    "build": "tsc -w",
+    "start": "nodemon build/app.js",
     "dev": "concurrently \"tsc -w\" \"nodemon build/app.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
