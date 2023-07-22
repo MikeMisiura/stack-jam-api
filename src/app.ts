@@ -7,18 +7,24 @@ import messageRoutes from './routes/messageRoutes';
 import mongoose from 'mongoose';
 import cartRoutes from './routes/cartRoutes';
 
-const connectionString: string = 'mongodb://localhost:27017/stack-jam';
+require('dotenv').config();
 
-mongoose.connect(connectionString).then(
-    () => console.log('database connection successful!'), 
-    err => console.log('Error connecting to the database', err));
+if (typeof process.env.MONGO_URI === "string") {
+    const connectionString: string = process.env.MONGO_URI;
+
+    mongoose.connect(connectionString).then(
+        () => console.log('database connection successful!'),
+        err => console.log('Error connecting to the database', err));
+} else {
+    console.log(".env type error")
+}
 
 // middleware
 // express
 const app = express();
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 // CORS
 // TODO: utilize CORS: at the moment, all requests are allowed
