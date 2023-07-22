@@ -3,8 +3,6 @@ import { Order, IOrder } from "../models/order";
 import { IUser, User } from "../models/user";
 import { verifyAdmin, verifyUser } from "../services/auth";
 import { ICartProduct } from "../models/cartProduct";
-import main from '../services/emailSender';
-import { email } from "../personal/emailLogin";
 
 // TODO: set up tax rate
 const taxRate = 0
