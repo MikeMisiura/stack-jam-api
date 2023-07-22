@@ -9,8 +9,8 @@ export const getAllProduct: RequestHandler = async (req, res, next) => {
 }
 
 export const getOneProduct: RequestHandler = async (req, res, next) => {
-    let itemId = req.params.id;
-    let product = await Product.findById(itemId);
+    let productId = req.params.id;
+    let product = await Product.findById(productId);
     res.status(200).json(product);
 }
 
@@ -52,12 +52,32 @@ export const editProduct: RequestHandler = async (req, res, next) => {
         description: req.body.description,
         color: req.body.color,
         price: req.body.price,
-        groupCode: req.body.groupCode
+        groupCode: req.body.groupCode,
+        featured: req.body.featured
     });
 
     await Product.findByIdAndUpdate(productId, { $set: updatedProduct })
 
     res.status(200).json(updatedProduct);
+}
+
+export const toggleFeatured: RequestHandler = async (req, res, next) => {
+    let admin: IUser | null = await verifyAdmin(req);
+    if (!admin) { return res.status(403).send() }
+
+    let productId = req.params.id;
+    let product = await Product.findById(productId);
+    if (!product) { return res.status(404).send() }
+    
+    if (product.featured) {
+        product.featured = false
+    } else {
+        product.featured = true
+    }
+
+    await Product.findByIdAndUpdate(productId, { $set: product })
+
+    res.status(200).json(product);
 }
 
 export const deleteProduct: RequestHandler = async (req, res, next) => {

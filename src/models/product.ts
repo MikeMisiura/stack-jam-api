@@ -7,6 +7,7 @@ interface IProduct extends Document {
     description: string;
     price: number;
     groupCode: string;
+    featured?: boolean;
 }
 
 const productSchema: Schema = new Schema({
@@ -29,6 +30,11 @@ const productSchema: Schema = new Schema({
     groupCode: {
         type: String,
         required: true
+    },
+    featured: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 }, {
     timestamps: true
